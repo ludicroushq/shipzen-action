@@ -23,6 +23,6 @@ runs:
       with:
         commit-message: "Update ShipZen"
         branch: shipzen-update
-        title: ${{ steps.update.outputs.title }}
-        body: ${{ steps.update.outputs.body }}
+        title: ${{ steps.update.outputs.pr-title }}
+        body: ${{ steps.update.outputs.pr-body }}
         delete-branch: true
