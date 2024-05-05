@@ -15,12 +15,13 @@ runs:
     - uses: actions/checkout@v4
 
     - run: tsx ./src/index.ts
+      id: update
       shell: bash
 
     - uses: peter-evans/create-pull-request@v6
       with:
-        commit-message: "TODO"
-        branch: TODO
-        title: TODO
-        body: TODO
+        commit-message: "Update ShipZen"
+        branch: shipzen-update
+        title: ${{ steps.update.outputs.title }}
+        body: ${{ steps.update.outputs.body }}
         delete-branch: true
