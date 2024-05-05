@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/ludicroushq/shipzen-action#readme",
   "devDependencies": {
+    "@biomejs/biome": "^1.7.2",
     "@types/node": "^20.12.8",
     "typescript": "^5.4.5"
   },

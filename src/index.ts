@@ -1,9 +1,9 @@
-import { readFileSync, existsSync, writeFileSync, unlinkSync } from 'fs'
-import { join} from 'path'
+import { execSync } from 'node:child_process';
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import * as core from '@actions/core';
 import { apiBaseUrl } from './config/api';
-import { VersionData, VersionsData } from './types';
-import * as core from '@actions/core'
-import { execSync } from 'child_process';
+import type { VersionData, VersionsData } from './types';
 
 const cwd = process.cwd();
 
@@ -25,37 +25,41 @@ if (!version) {
   throw new Error('shipzen.version not found in package.json');
 }
 
-const allVersions = await fetch(`${apiBaseUrl}/api/v1/versions`).then(r => r.json()) as VersionsData
+const allVersions = (await fetch(`${apiBaseUrl}/api/v1/versions`).then((r) =>
+  r.json(),
+)) as VersionsData;
 
 if (!allVersions.ok) {
   throw new Error(allVersions.error);
 }
 
-const {versions} = allVersions.data;
+const { versions } = allVersions.data;
 
-const currentVersionIndex = versions.findIndex(v => v === `v${version}`);
-const nextVersion = versions[currentVersionIndex - 1]
+const currentVersionIndex = versions.findIndex((v) => v === `v${version}`);
+const nextVersion = versions[currentVersionIndex - 1];
 
 if (!nextVersion) {
-  console.log("No next version found for version:", version);
+  console.log('No next version found for version:', version);
   process.exit(0);
 }
 
-const nextVersionPatch = await fetch(`${apiBaseUrl}/api/v1/versions/${nextVersion}`).then(r => r.json()) as VersionData;
+const nextVersionPatch = (await fetch(
+  `${apiBaseUrl}/api/v1/versions/${nextVersion}`,
+).then((r) => r.json())) as VersionData;
 
 if (!nextVersionPatch.ok) {
   throw new Error(nextVersionPatch.error);
 }
 
-const {body, tag, updatePatch} = nextVersionPatch.data;
+const { body, tag, updatePatch } = nextVersionPatch.data;
 
 const patchPath = join(cwd, 'update.diff');
 writeFileSync(patchPath, updatePatch);
 
 try {
   execSync(`git apply --reject --whitespace=fix ${patchPath}`, {
-    cwd
-  })
+    cwd,
+  });
 } catch (error) {
   // ignore
 }
@@ -71,7 +75,7 @@ Please review this PR and verify the changes. Ensure that you have done the foll
 
 # Release Notes
 
-${body}`
+${body}`;
 
 core.setOutput('pr-title', `ShipZen: v${version} -> ${nextVersion}`);
 core.setOutput('pr-body', prBody);
