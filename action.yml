@@ -14,7 +14,7 @@ runs:
     - run: npm ci
       shell: bash
 
-    - run: npx tsx ./src/index.ts
+    - run: npx tsx ${GITHUB_ACTION_PATH}/src/index.ts
       id: update
       shell: bash
 
