@@ -12,7 +12,7 @@ runs:
         cache: 'npm'
 
     - run: npm ci
-      working-directory: ${GITHUB_ACTION_PATH}
+      working-directory: ${{ env.GITHUB_ACTION_PATH }}
       shell: bash
 
     - run: npx tsx ${GITHUB_ACTION_PATH}/src/index.ts
