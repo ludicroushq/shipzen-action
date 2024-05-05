@@ -1,0 +1,26 @@
+name: ShipZen
+description: A companion action for ShipZen
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        cache: 'npm'
+
+    - run: npm install -g tsx
+      shell: bash
+
+    - uses: actions/checkout@v4
+
+    - run: tsx ./src/index.ts
+      shell: bash
+
+    - uses: peter-evans/create-pull-request@v6
+      with:
+        commit-message: "TODO"
+        branch: TODO
+        title: TODO
+        body: TODO
+        delete-branch: true
