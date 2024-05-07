@@ -18,6 +18,8 @@ runs:
     - run: npx tsx --tsconfig=$GITHUB_ACTION_PATH/tsconfig.json $GITHUB_ACTION_PATH/src/index.ts
       id: update
       shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
 
     - uses: peter-evans/create-pull-request@v6
       with:
