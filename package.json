@@ -1,6 +1,6 @@
 {
   "name": "shipzen-action",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A companion action for ShipZen",
   "main": "src/index.ts",
   "type": "module",
