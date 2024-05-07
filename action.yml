@@ -22,6 +22,7 @@ runs:
         GH_TOKEN: ${{ github.token }}
 
     - uses: peter-evans/create-pull-request@v6
+      if: steps.update.outputs.skip-pr != 'true'
       with:
         commit-message: "Update ShipZen"
         branch: shipzen-update

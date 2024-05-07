@@ -13,6 +13,7 @@ try {
   });
   if (res.toString().trim() === '1') {
     console.log('PR already exists');
+    core.setOutput('skip-pr', true);
     process.exit(0);
   }
 } catch (error) {
