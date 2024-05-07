@@ -7,6 +7,18 @@ import type { VersionData, VersionsData } from './types';
 
 const cwd = process.cwd();
 
+try {
+  const res = execSync("gh pr list --head shipzen-update --json id --jq length", {
+    cwd,
+  });
+  if (res.toString().trim() === '1') {
+    console.log('PR already exists');
+    process.exit(0);
+  }
+} catch (error) {
+  console.log(error)
+}
+
 const packagePath = join(cwd, 'package.json');
 if (!existsSync(packagePath)) {
   throw new Error('package.json not found');
