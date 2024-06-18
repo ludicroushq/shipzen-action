@@ -11,6 +11,7 @@ try {
   const res = execSync("gh pr list --head shipzen-update --json id --jq length", {
     cwd,
   });
+  console.log(res.toString().trim());
   if (res.toString().trim() === '1') {
     console.log('PR already exists');
     core.setOutput('skip-pr', true);
